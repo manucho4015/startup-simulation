@@ -50,6 +50,16 @@ export default function Home() {
   })
   const [submitting, setSubmitting] = useState(false)
 
+  let isGameOver = false
+  let isWin = false
+
+  if (game) {
+    isGameOver = game.cash <= 0
+    isWin = game.year >= 10 && game.cash > 0
+  }
+
+
+
   async function advanceQuarter() {
     setSubmitting(true)
 
@@ -113,7 +123,11 @@ export default function Home() {
       setLoading(false)
     }
 
+
+
     loadGame()
+
+
   }, [router])
 
   if (loading) return <p>Loading...</p>
@@ -134,6 +148,20 @@ export default function Home() {
 
       {game && (
         <OfficeVisualization engineers={game?.engineers} sales={game?.sales_staff} />
+      )}
+
+      {isGameOver && (
+        <div className="text-red-500 mt-16">
+          <h2>Game Over</h2>
+          <p>You ran out of cash</p>
+        </div>
+      )}
+
+      {isWin && (
+        <div className="text-green-500 mt-16">
+          <h2>You Win</h2>
+          <p>You successfully ran the company for 10 years.</p>
+        </div>
       )}
 
 
@@ -160,8 +188,8 @@ export default function Home() {
           <input type="number" value={decisions.salary_pct} onChange={e => setDecisions({ ...decisions, salary_pct: Number(e.target.value) })} />
         </label>
 
-        <button disabled={submitting} onClick={advanceQuarter} className="border rounded-xl py-2 px-4">
-          {submitting ? 'Advancing...' : 'Advance Quarter'}
+        <button disabled={submitting || isGameOver || isWin} onClick={advanceQuarter} className="border rounded-xl py-2 px-4">
+          {isGameOver ? 'Game Over' : isWin ? 'You Win' : submitting ? 'Advancing...' : 'Advance Quarter'}
         </button>
 
       </div>

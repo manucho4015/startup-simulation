@@ -3,7 +3,7 @@ import type { GameState, Decisions, QuarterResult } from "./types";
 const INDUSTRY_SALARY = 30_000
 const HIRING_COST = 5_000
 
-export function simulateQuarter(state: GameState, decisions: Decisions): { nextSate: GameState; result: QuarterResult } {
+export function simulateQuarter(state: GameState, decisions: Decisions): { nextState: GameState; result: QuarterResult } {
     const { price, new_engineers, new_sales_staff, salary_pct } = decisions
 
     // 1.Apply hiring
@@ -17,7 +17,7 @@ export function simulateQuarter(state: GameState, decisions: Decisions): { nextS
     const totalPayroll = salaryPerPerson * (engineers + sales_staff)
 
     // 3.Imporve product quality
-    const product_quality = Math.min(100, state.product_quality + engineers * .5)
+    const product_quality = Math.min(100, Math.round(state.product_quality + engineers * .5))
 
     // 4.Demand
     const demand = Math.max(0, product_quality * 10 - price * .0001)
@@ -44,7 +44,7 @@ export function simulateQuarter(state: GameState, decisions: Decisions): { nextS
     }
 
     return {
-        nextSate: { cash, engineers, sales_staff, product_quality, year, quarter },
+        nextState: { cash, engineers, sales_staff, product_quality, year, quarter },
         result: { revenue, net_income, cash_end: cash, engineers, sales_staff }
     }
 }

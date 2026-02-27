@@ -49,6 +49,7 @@ export default function Home() {
     salary_pct: 100
   })
   const [submitting, setSubmitting] = useState(false)
+  const [history, setHistory] = useState<any[]>([])
 
   let isGameOver = false
   let isWin = false
@@ -123,8 +124,13 @@ export default function Home() {
       setLoading(false)
     }
 
+    async function loadHistory() {
+      const { data: history } = await supabase.from('quarter_history').select('*').order('created_at', { ascending: false }).limit(4)
 
+      setHistory(history ?? [])
+    }
 
+    loadHistory()
     loadGame()
 
 
@@ -145,6 +151,35 @@ export default function Home() {
           </>
         )
       }
+
+      {history.length > 0 && (
+        <div className="mt-12">
+          <h2>Last 4 Quarters</h2>
+
+          <table border={1} cellPadding={8}>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Quarter</th>
+                <th>Revenue</th>
+                <th>Net Income</th>
+                <th>Cash</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((q) => (
+                <tr key={q.id}>
+                  <td>{q.year}</td>
+                  <td>{q.quarter}</td>
+                  <td>{q.revenue}</td>
+                  <td>{q.net_income}</td>
+                  <td>{q.cash_end}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {game && (
         <OfficeVisualization engineers={game?.engineers} sales={game?.sales_staff} />

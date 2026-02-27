@@ -1,5 +1,7 @@
 'use client'
 
+const OFFICE_CAPACITY = 20
+
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -7,6 +9,34 @@ import { useRouter } from "next/navigation";
 // types
 import type { Game } from "@/types/game";
 import type { Decisions } from "@/lib/simulation/types";
+
+function OfficeVisualization({ engineers, sales }: { engineers: number, sales: number }) {
+  const desks = [...Array(engineers).fill('engineer'), ...Array(sales).fill('sales')]
+
+  const emptyDesks = OFFICE_CAPACITY - desks.length
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <h2>Office</h2>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 40px)', gap: 8 }}>
+        {desks.map((role, i) => (
+          <div key={i} title={role} className={`h-10 w-10 rounded ${role === 'engineer' ? 'bg-[#3b82f6]' : 'bg-[#22c55e]'}`} />
+        ))}
+
+        {Array.from({ length: emptyDesks }).map((_, i) => (
+          <div key={`empty-${i}`} title="Empty desk" className="bg-[#e5e7eb] h-10 w-10 rounded" />
+        ))}
+      </div>
+
+      <div className="mt-8 text-sm">
+        <span className="mr-12">🔵 Engineers</span>
+        <span className="mr-12">🟢 Sales</span>
+        <span>⚪ Empty</span>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   const router = useRouter()
@@ -94,13 +124,18 @@ export default function Home() {
       {
         game && (
           <>
-            <p>Cash ${game.cash}</p>
-            <p>Year ${game.year}, Quarter {game.quarter}</p>
-            <p>Engineers ${game.engineers}</p>
-            <p>Sales Staff ${game.sales_staff}</p>
+            <p>Cash: ${game.cash}</p>
+            <p>Year {game.year}, Quarter {game.quarter}</p>
+            <p>Engineers: {game.engineers}</p>
+            <p>Sales Staff: {game.sales_staff}</p>
           </>
         )
       }
+
+      {game && (
+        <OfficeVisualization engineers={game?.engineers} sales={game?.sales_staff} />
+      )}
+
 
       <div style={{ marginTop: 24 }}>
         <h2>Quarter Decisions</h2>

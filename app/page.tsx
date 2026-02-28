@@ -140,6 +140,36 @@ export default function Home() {
 
   return (
     <div>
+      {history.length > 0 && (
+        <div className="mt-12">
+          <h2 className="font-semibold text-xl">Last 4 Quarters</h2>
+
+          <div className="rounded-xl border border-[#ffffff46] inline-block overflow-x-auto">
+            <table className="">
+              <thead className="bg-[#4747474b] ">
+                <tr className="font-medium pb-5 border-b border-[#ffffff46] text-[#ffffffd8]">
+                  <th className="px-6 py-3">Year</th>
+                  <th className="px-6 py-3">Quarter</th>
+                  <th className="px-6 py-3">Revenue</th>
+                  <th className="px-6 py-3">Net Income</th>
+                  <th className="px-6 py-3">Cash</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((q, i) => (
+                  <tr className="text-[#ffffffc3] border-[#ffffff46]" key={q.id}>
+                    <td className={`${i !== history.length - 1 && 'border-b border-[#ffffff46]'} px-6 py-4`}>{q.year}</td>
+                    <td className={`${i !== history.length - 1 && 'border-b border-[#ffffff46]'} px-6 py-4`}> {q.quarter}</td>
+                    <td className={`${i !== history.length - 1 && 'border-b border-[#ffffff46]'} px-6 py-4`}> {q.revenue}</td>
+                    <td className={`${i !== history.length - 1 && 'border-b border-[#ffffff46]'} px-6 py-4`}> {q.net_income}</td>
+                    <td className={`${i !== history.length - 1 && 'border-b border-[#ffffff46]'} px-6 py-4`}> {q.cash_end}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       <h1>Startup Dashboard</h1>
       {
         game && (
@@ -152,34 +182,7 @@ export default function Home() {
         )
       }
 
-      {history.length > 0 && (
-        <div className="mt-12">
-          <h2>Last 4 Quarters</h2>
 
-          <table border={1} cellPadding={8}>
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Quarter</th>
-                <th>Revenue</th>
-                <th>Net Income</th>
-                <th>Cash</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((q) => (
-                <tr key={q.id}>
-                  <td>{q.year}</td>
-                  <td>{q.quarter}</td>
-                  <td>{q.revenue}</td>
-                  <td>{q.net_income}</td>
-                  <td>{q.cash_end}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {game && (
         <OfficeVisualization engineers={game?.engineers} sales={game?.sales_staff} />

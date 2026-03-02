@@ -72,14 +72,21 @@ With additional time, I would:
 
 ## Setup Instructions
 
-```bash
-# 1. Install dependencies
-npm install
+1. Install dependencies
 
-# 2. Add environment variables
+```bash
+npm install
+```
+
+2. Add environment variables (.env.local file) in root of project
+
+```bash
 # NEXT_PUBLIC_SUPABASE_URL
 # NEXT_PUBLIC_SUPABASE_ANON_KEY
+```
 
-# 3. Run the development server
+3. Run the development server
+
+```bash
 npm run dev
 ```

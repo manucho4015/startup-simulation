@@ -46,7 +46,7 @@ export default function Home() {
   const [game, setGame] = useState<Game | null>(null)
   const [loading, setLoading] = useState<any>(true)
   const [decisions, setDecisions] = useState<Decisions>({
-    price: 500,
+    price: 100,
     new_engineers: 0,
     new_sales_staff: 0,
     salary_pct: 100

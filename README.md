@@ -66,6 +66,7 @@ With additional time, I would:
 - Improve responsiveness and polish of the office visualization
 - Add automated tests for the simulation logic
 - Introduce a game reset or replay option
+- Add stronger hiring restrictions dependent on the available office space
 
 ---
 
